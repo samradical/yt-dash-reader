@@ -19,9 +19,11 @@ var EXPRESS = (function() {
   }));
 
   app.get('/', function(req, res) {
-  	 res.writeHead(200, {'Content-Type': 'text/plain'});
-  res.end('Hello AWSBOX\n');
-  }
+    res.writeHead(200, {
+      'Content-Type': 'text/plain'
+    });
+    res.end('Hello AWSBOX\n');
+  });
   app.get('/getVideo', function(req, res) {
     //https://placebear.com/1110/920
     /* res.writeHead(206, {
