@@ -18,6 +18,10 @@ var EXPRESS = (function() {
     extended: true
   }));
 
+  app.get('/', function(req, res) {
+  	 res.writeHead(200, {'Content-Type': 'text/plain'});
+  res.end('Hello AWSBOX\n');
+  }
   app.get('/getVideo', function(req, res) {
     //https://placebear.com/1110/920
     /* res.writeHead(206, {
@@ -63,7 +67,7 @@ var EXPRESS = (function() {
   //routes
   //routes = require('./routes')(app);
 
-  server = app.listen(80, '127.0.0.1');
+  server = app.listen(process.env['PORT'] || 8080, '127.0.0.1');
   console.log("STARTED");
 })();
 
