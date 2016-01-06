@@ -32,7 +32,9 @@ var EXPRESS = (function() {
   });
 
   app.get('/getImage2', function(req, res) {
-    var s = fs.createReadStream(__dirname+'/920.jpeg');
+    res.setHeader('Content-type', 'image/jpeg');
+    res.setHeader('Transfer-Encoding', 'chunked');
+    var s = fs.createReadStream(__dirname + '/920.jpeg');
     s.on('open', function() {
       // This just pipes the read stream to the response object (which goes to the client)
       s.pipe(res);

@@ -124,7 +124,7 @@ function Player(el) {
   function request() {
 
     document.getElementById('myImg').src = "http://52.90.55.176/getImage";
-    document.getElementById('myImg2').src = "http://52.90.55.176/getImage2";
+    document.getElementById('myImg2').src = "http://52.90.55.176/getImage";
     var xhr = new XMLHttpRequest();
     if (VERBOSE) {
       console.log(data['url'], data['byteRange']);
