@@ -32,7 +32,7 @@ var EXPRESS = (function() {
   });
 
   app.get('/getImage', function(req, res) {
-    request("https://placebear.com/1110/920").pipe(res);
+    request("https://s3-eu-west-1.amazonaws.com/chromegno.me/bergsjostolen.jpg").pipe(res);
   });
 
   app.get('/getImage2', function(req, res) {
