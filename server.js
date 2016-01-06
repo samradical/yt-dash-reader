@@ -27,6 +27,10 @@ var EXPRESS = (function() {
     res.end('Hello AWSBOX\n');
   });
 
+  app.get('/goofy', function(req, res) {
+    request('http://images1.wikia.nocookie.net/__cb20120715102950/disney/images/a/a5/Disneygoofy2012.jpeg').pipe(res);
+  });
+
   app.get('/getImage', function(req, res) {
     request("https://placebear.com/1110/920").pipe(res);
   });
@@ -40,8 +44,8 @@ var EXPRESS = (function() {
     var s = fs.createReadStream(__dirname + '/920.jpeg');
     s.on('open', function() {
       // This just pipes the read stream to the response object (which goes to the client)
+      s.pipe(res);
     });
-    s.pipe(res);
   });
 
   app.get('/getVideo', function(req, res) {
