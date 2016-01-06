@@ -11,9 +11,11 @@ var EXPRESS = (function() {
 
   app.use(cors({
     allowedOrigins: [
-      'localhost'
+      'localhost',
+      '*'
     ]
   }));
+
   app.use(bodyParser.urlencoded({
     extended: true
   }));
@@ -27,15 +29,13 @@ var EXPRESS = (function() {
 
   app.get('/getVideo', function(req, res) {
     //https://placebear.com/1110/920
-    /* res.writeHead(206, {
-       'Content-Type': 'image/png'
-     });
-     request("https://placebear.com/1110/920").pipe(res);*/
+    res.writeHead(206, {
+      'Accept-Ranges': 'bytes',
+      'Content-Type': 'video/mp4'
+    });
     DL.getSidx().then(function(data) {
-      console.log(data);
       var url = data.url + '&range=' + data.range;
       console.log(data.range, data.max);
-      var range = '0-27907';
       res.writeHead(206, {
         'Content-Range': 'bytes ' + data.range + '/' + data.max,
         //'Content-Range': 'bytes ' + range + '/27908',
