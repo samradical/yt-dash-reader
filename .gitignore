@@ -1,0 +1,106 @@
+#   OS
+
+._*
+.DS_Store
+.DS_Store?
+.AppleDouble
+Icon?
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+*.pyc
+
+Archive.zip
+*.zip
+
+#   VCS
+
+.svn
+*.orig
+!.gitinclude
+
+
+#   IDE
+
+.settings/
+.project
+user.properties
+.idea?
+.metadata/*
+*.ignore
+*.sublime-*
+*~
+*.swp
+*.swo
+
+
+#   BINARIES
+
+*.air
+*.py[cod]
+node_modules/
+
+# Packages
+
+*.egg
+*.egg-info
+eggs
+develop-eggs
+.installed.cfg
+#lib
+lib64
+*.mp4
+*.srt
+*.mkv
+*.gif
+# Installer logs
+
+pip-log.txt
+
+# Unit test / coverage reports
+
+.coverage
+.tox
+nosetests.xml
+
+# Translations
+*.mo
+
+# Mr Developer
+
+.mr.developer.cfg
+.project
+.pydevproject
+
+nodewebkit/build
+nodewebkit/display/dist
+mobile/assets/css/**/*
+mobile/assets/js/**/*
+app.nw
+bower_components
+node/videos/**/*
+node/exports/**/*
+refactor/videos/**/*
+mobile/assets/vendor/**/*
+tools/tools-app/dist/**/**
+tools/tool-app/dist/js/**/*
+videos/**/*
+.env
+mobile/build/**/*
+
+npm-debug.log
+tools/tool-app/dist/index.html
+tools/tool-app/dist/entry.js
+tools/tool-app/dist/css/**/*
+tools/player/dist/**/*
+tools/player/dist/**/**
+tools/tool-app/dist/
+tools/tool-app/dist/envvars
+tools/video-player/dist/assets/videos/
+tools/video-player/dist/js/
+tools/effect-player/assets/vendor/**/*
+
+bundle.js
+styles.min.css

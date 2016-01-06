@@ -1,0 +1,17 @@
+{
+  "name": "rad-tag",
+  "version": "0.1.0",
+  "main": "entry.js",
+  "dependencies": {
+    "lodash": "*",
+    "ytdl-core": "*",
+    "bluebird": "latest",
+    "request": "latest",
+    "xml2js": "latest",
+    "xhr2": "latest",
+
+    "express": "^4.0.0",
+    "body-parser": "~1.0.0",
+    "cors": "*"
+  }
+}
