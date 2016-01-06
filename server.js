@@ -29,10 +29,6 @@ var EXPRESS = (function() {
 
   app.get('/getVideo', function(req, res) {
     //https://placebear.com/1110/920
-    res.writeHead(206, {
-      'Accept-Ranges': 'bytes',
-      'Content-Type': 'video/mp4'
-    });
     DL.getSidx().then(function(data) {
       var url = data.url + '&range=' + data.range;
       console.log(data.range, data.max);
