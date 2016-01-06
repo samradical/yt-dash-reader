@@ -27,6 +27,10 @@ var EXPRESS = (function() {
     res.end('Hello AWSBOX\n');
   });
 
+  app.get('/getImage', function(req, res) {
+    request("https://placebear.com/1110/920").pipe(res);
+  });
+  
   app.get('/getVideo', function(req, res) {
     //https://placebear.com/1110/920
     DL.getSidx().then(function(data) {
