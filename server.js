@@ -48,13 +48,15 @@ var EXPRESS = (function() {
 
         response.on('data', function(data) {
           console.log("data chunk received: " + data.length)
+          res.write(data);
         });
 
         response.on('end', function(data) {
           console.log('Video completed');
+          res.end();
         });
 
-      }).pipe(res);
+      })/*.pipe(res);*/
 
       r.on('error', function(err) {
         console.log(err);
