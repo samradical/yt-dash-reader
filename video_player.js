@@ -128,8 +128,8 @@ function Player(el) {
     if (VERBOSE) {
       console.log(data['url'], data['byteRange']);
     }
-    xhr.open('GET', 'http://52.90.55.176/getVideo', true);
-    //xhr.open('GET', 'http://localhost:8080/getVideo', true);
+    //xhr.open('GET', 'http://52.90.55.176/getVideo', true);
+    xhr.open('GET', 'http://localhost:8080/getVideo', true);
     xhr.responseType = 'arraybuffer';
     xhr.onload = function() {
       var segResp = new Uint8Array(xhr.response);

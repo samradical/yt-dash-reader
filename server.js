@@ -38,7 +38,8 @@ var EXPRESS = (function() {
         //'Content-Length': '27908',
         'Content-Length': data.max,
         'Accept-Ranges': 'bytes',
-        'Content-Type': 'video/mp4'
+        'Content-Type': 'video/mp4',
+        "Access-Control-Allow-Origin":"*"
       });
       console.log(url);
       var r = request({
