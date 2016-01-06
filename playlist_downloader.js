@@ -6,7 +6,6 @@ var path = require('path');
 var YT = require('ytdl-core');
 var request = require('request');
 var xml2js = require('xml2js');
-var parser = new xml2js.Parser();
 
 var YOUTUBE_KEY = 'AIzaSyCebfDVAnfQw4wocPjNo7Czwndt7z9ArvA';
 var RESOLUTIONS = ['720p', '480p', '360p'];
@@ -14,8 +13,10 @@ var DASH = ['133', '134', '135', '136'];
 
 var PLAYLIST_ID = "PLRy338DcC4FLXMjXid_T-yn9GXbmiN6s-";
 var V_ID = "KsdAIYmSHAg";
+
 var YoutubeScraper = (function() {
   'use strict';
+  var parser = new xml2js.Parser();
 
   function getSidx() {
     console.log("sdsdsd");
@@ -83,7 +84,7 @@ var YoutubeScraper = (function() {
               resolve({
                 url: test.url,
                 range: rr + '-' + ee,
-                max:Number(ee)+1,
+                max: Number(ee) + 1,
                 codecs: test.codecs
               });
 
