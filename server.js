@@ -32,13 +32,16 @@ var EXPRESS = (function() {
   });
 
   app.get('/getImage2', function(req, res) {
-    res.setHeader('Content-type', 'image/jpeg');
-    res.setHeader('Transfer-Encoding', 'chunked');
+    var stat = fs.statSync(__dirname + '/920.jpeg');
+    response.writeHead(200, {
+      'Content-Type': 'image/jpeg',
+      'Content-Length': stat.size
+    });
     var s = fs.createReadStream(__dirname + '/920.jpeg');
     s.on('open', function() {
       // This just pipes the read stream to the response object (which goes to the client)
-      s.pipe(res);
     });
+    s.pipe(res);
   });
 
   app.get('/getVideo', function(req, res) {
