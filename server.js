@@ -3,7 +3,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var cors = require('cors'); // "Request" library
 var fs = require('fs'); // "Request" library
-var DL = require('./playlist_downloader');
+//var DL = require('./playlist_downloader');
 var request = require('request');
 var EXPRESS = (function() {
   var app = express();
@@ -24,6 +24,7 @@ var EXPRESS = (function() {
     });
     res.end('Hello AWSBOX\n');
   });
+
   app.get('/getVideo', function(req, res) {
     //https://placebear.com/1110/920
     /* res.writeHead(206, {
