@@ -63,7 +63,7 @@ var EXPRESS = (function() {
   //routes
   //routes = require('./routes')(app);
 
-  server = app.listen(8080, '127.0.0.1');
+  server = app.listen(80, '127.0.0.1');
   console.log("STARTED");
 })();
 
