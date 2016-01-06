@@ -37,7 +37,7 @@ var EXPRESS = (function() {
 
   app.get('/getImage2', function(req, res) {
     var stat = fs.statSync(__dirname + '/920.jpeg');
-    response.writeHead(200, {
+    res.writeHead(200, {
       'Content-Type': 'image/jpeg',
       'Content-Length': stat.size
     });
