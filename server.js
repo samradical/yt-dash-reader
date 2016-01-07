@@ -9,16 +9,11 @@ var EXPRESS = (function() {
   var app = express();
   var server, routes;
 
-  app.use(cors({
-    allowedOrigins: [
-      'localhost',
-      '*'
-    ]
-  }));
+  app.use(cors());
 
-  app.use(bodyParser.urlencoded({
+ /* app.use(bodyParser.urlencoded({
     extended: true
-  }));
+  }));*/
 
   app.get('/', function(req, res) {
     res.writeHead(200, {
