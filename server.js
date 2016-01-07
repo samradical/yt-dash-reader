@@ -61,6 +61,7 @@ var EXPRESS = (function() {
         'Content-Range': 'bytes ' + data.range + '/' + data.max,
         //'Content-Range': 'bytes ' + range + '/27908',
         //'Content-Length': '27908',
+        'X-Accel-Buffering': 'no',
         'Content-Length': data.max,
         'Accept-Ranges': 'bytes',
         'Content-Type': 'video/mp4',
@@ -130,7 +131,7 @@ var EXPRESS = (function() {
   //routes = require('./routes')(app);
 
   server = app.listen(process.env['PORT'] || 8080, '127.0.0.1');
-  console.log("STARTED");
+  console.log("STARTED, ",process.env['PORT']);
 })();
 
 module.exports = EXPRESS;
