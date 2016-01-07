@@ -4,6 +4,7 @@ var bodyParser = require('body-parser');
 var cors = require('cors'); // "Request" library
 var fs = require('fs'); // "Request" library
 var DL = require('./playlist_downloader');
+var YT = require('ytdl-core');
 var request = require('request');
 var EXPRESS = (function() {
   var app = express();
@@ -47,6 +48,10 @@ var EXPRESS = (function() {
     });
   });
 
+  app.get('/staticVideo', function(req, res) {
+    YT("http://www.youtube.com/watch?v=KsdAIYmSHAg").pipe(res)
+  });
+  
   app.get('/getVideo', function(req, res) {
     //https://placebear.com/1110/920
     DL.getSidx().then(function(data) {

@@ -129,8 +129,9 @@ function Player(el) {
     if (VERBOSE) {
       console.log(data['url'], data['byteRange']);
     }
-    xhr.open('GET', 'http://52.90.55.176/getVideo2', true);
+    //xhr.open('GET', 'http://52.90.55.176/getVideo2', true);
     //xhr.open('GET', 'http://localhost:8080/getVideo', true);
+    xhr.open('GET', 'http://localhost:8080/getVideo2', true);
     xhr.responseType = 'arraybuffer';
     xhr.onload = function() {
       var segResp = new Uint8Array(xhr.response);
@@ -140,6 +141,7 @@ function Player(el) {
       var off = 0;
     };
     xhr.addEventListener("readystatechange", function() {
+      console.log(xhr.getAllResponseHeaders());
       console.log(xhr);
     });
     xhr.send();
