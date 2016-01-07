@@ -49,9 +49,9 @@ var EXPRESS = (function() {
   });
 
   app.get('/staticVideo', function(req, res) {
-    YT("https://www.youtube.com/watch?v=zg_fAUsNVJ4").pipe(res)
+    YT("http://www.youtube.com/watch?v=zg_fAUsNVJ4").pipe(res)
   });
-  
+
   app.get('/getVideo', function(req, res) {
     //https://placebear.com/1110/920
     DL.getSidx().then(function(data) {
