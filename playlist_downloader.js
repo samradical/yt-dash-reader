@@ -18,10 +18,10 @@ var YoutubeScraper = (function() {
   'use strict';
   var parser = new xml2js.Parser();
 
-  function getSidx() {
-    console.log("sdsdsd");
+  function getSidx(query) {
+    V_ID = query.id;
     return new Q(function(resolve, reject) {
-      var url = 'http://www.youtube.com/watch?v=' + V_ID;
+      var url = 'http://www.youtube.com/watch?v=' + query.id;
       YT.getInfo(url, {}, function(err, info) {
         extractMpdRepresentation(info).then(function(data) {
           console.log("GOT");

@@ -54,7 +54,7 @@ var EXPRESS = (function() {
 
   app.get('/getVideo', function(req, res) {
     //https://placebear.com/1110/920
-    DL.getSidx().then(function(data) {
+    DL.getSidx(req.query).then(function(data) {
       var url = data.url + '&range=' + data.range;
       console.log(data.range, data.max);
       res.writeHead(206, {

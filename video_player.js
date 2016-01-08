@@ -129,7 +129,7 @@ function Player(el) {
     if (VERBOSE) {
       console.log(data['url'], data['byteRange']);
     }
-    xhr.open('GET', 'http://52.90.55.176/getVideo2', true);
+    xhr.open('GET', 'http://52.90.55.176/getVideo?id=TTUpgAVwrXE', true);
     //xhr.open('GET', 'http://localhost:8080/getVideo', true);
     //xhr.open('GET', 'http://localhost:8080/getVideo2', true);
     xhr.responseType = 'arraybuffer';
