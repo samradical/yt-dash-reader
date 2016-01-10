@@ -124,8 +124,9 @@ var EXPRESS = (function() {
     });
   });
 
-  app.get('/getVideoIndex', function(req, res) {
-    var url = data.url + '&range=' + data.range;
+  app.post('/getVideoIndex', function(req, res) {
+    var data = req.body;
+    var url = data.url + '&range=' + data.indexRange;
     res.writeHead(200, {
       'Content-Range': 'bytes ' + data.indexRange,
       'X-Accel-Buffering': 'no',

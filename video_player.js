@@ -345,9 +345,11 @@ function Player(el) {
 
   function initialRequest(data, callback) {
     var xhr = new XMLHttpRequest();
-    var range = "bytes=" + data['indexRange']
-    xhr.open('GET', 'http://52.90.55.176/getVideoIndex?id=TTUpgAVwrXE', true);
-    xhr.send();
+    var formData = new FormData();
+    formData.append('url', data.url);
+    formData.append('indexRange', data.indexRange);
+    xhr.open('POST', 'http://52.90.55.176/getVideoIndex', true);
+    xhr.send(formData);
     xhr.responseType = 'arraybuffer';
     try {
       xhr.addEventListener("readystatechange", function() {
