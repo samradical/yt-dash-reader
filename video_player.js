@@ -216,13 +216,13 @@ function Player(el) {
       console.log(currentVo['url'], currentVo['byteRange']);
     }
     xhr.open('POST', 'http://52.90.55.176/getVideo', true);
-    console.log(formData);
-    console.log(formData);
     xhr.responseType = 'arraybuffer';
     xhr.send(formData);
     xhr.addEventListener("readystatechange", function() {
+      console.log(xhr);
       if (xhr.readyState == xhr.DONE) { //wait for video to load
-        if (!sourceBuffer || !mediaSource || starting) {
+        console.log("DONE");
+        if (!sourceBuffer || !mediaSource) {
           return;
         }
         var segResp = new Uint8Array(xhr.response);
@@ -232,6 +232,7 @@ function Player(el) {
         }
 
         function _trySettingOffset() {
+          console.log("_trySettingOffset");
           try {
             sourceBuffer.timestampOffset = off || 0;
             initialRequest(currentVo, __addInit);
@@ -245,6 +246,7 @@ function Player(el) {
           if (VERBOSE) {
             console.log("readyState", mediaSource.readyState);
           }
+          console.log(mediaSource.readyState);
           if (mediaSource.readyState === 'open' && sourceBuffer) {
             sourceBuffer.removeEventListener('updatestart', onBufferUpdateStartBound);
             sourceBuffer.removeEventListener('updateend', onBufferUpdateEndBound);
