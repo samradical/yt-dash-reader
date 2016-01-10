@@ -24,7 +24,6 @@ var YoutubeScraper = (function() {
       var url = 'http://www.youtube.com/watch?v=' + query.id;
       YT.getInfo(url, {}, function(err, info) {
         extractMpdRepresentation(info).then(function(data) {
-          console.log("GOT");
           resolve(data);
         });
       });
@@ -76,7 +75,6 @@ var YoutubeScraper = (function() {
             });
           });
           var test = videoResults[0];
-          console.log(test);
           sidxFromInitRange(test.url, test.indexRange).then(function(sidx) {
             //var f = fs.createWriteStream(path.join(__dirname, 'xx.mp4'));
             test.sidx = sidx;

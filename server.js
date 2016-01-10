@@ -91,6 +91,7 @@ var EXPRESS = (function() {
   app.post('/getVideo', function(req, res) {
     //https://placebear.com/1110/920
     var data = req.body;
+    console.log(data);
     var url = data.url + '&range=' + data.byteRange;
     console.log(data.range, data.max);
     res.writeHead(206, {
@@ -126,6 +127,7 @@ var EXPRESS = (function() {
 
   app.post('/getVideoIndex', function(req, res) {
     var data = req.body;
+    console.log(data);
     var url = data.url + '&range=' + data.indexRange;
     res.writeHead(200, {
       'Content-Range': 'bytes ' + data.indexRange,
