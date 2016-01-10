@@ -78,17 +78,18 @@ var YoutubeScraper = (function() {
           var test = videoResults[0];
           console.log(test);
           sidxFromInitRange(test.url, test.indexRange).then(function(sidx) {
-              var f = fs.createWriteStream(path.join(__dirname, 'xx.mp4'));
+              //var f = fs.createWriteStream(path.join(__dirname, 'xx.mp4'));
               var rr = test.indexRange.split('-')[0];
               var ee = sidx.references[20].mediaRange.split('-')[1];
               resolve({
                 url: test.url,
+                indexRange: test.indexRange,
                 range: rr + '-' + ee,
                 max: Number(ee) + 1,
                 codecs: test.codecs
               });
 
-              f.on('finish', function() {});
+             /* f.on('finish', function() {});
               var url = test.url + '&range=' + rr + '-' + ee;
               console.log(url);
               var r = request({
@@ -102,7 +103,7 @@ var YoutubeScraper = (function() {
               r.on('error', function(err) {
                 console.log(err);
               });
-            })
+            })*/
             //fs.writeFileSync(path.join(__dirname, 'xx.json'), JSON.stringify(result), null, 4);
         });
       });
