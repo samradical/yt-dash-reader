@@ -208,13 +208,16 @@ function Player(el) {
   }
 
   function addSegment(currentVo) {
+    var formData = new FormData();
+    formData.append('id', 'TTUpgAVwrXE');
+    formData.append('url', currentVo.url);
+    formData.append('byteRange', currentVo.byteRange);
     var xhr = new XMLHttpRequest();
     if (VERBOSE) {
       console.log(currentVo['url'], currentVo['byteRange']);
     }
-    xhr.open('GET', currentVo['url']);
-    xhr.setRequestHeader("Range", "bytes=" + currentVo['byteRange']);
-    xhr.send();
+    xhr.open('POST', 'http://52.90.55.176/getVideo', true);
+    xhr.send(formData);
     xhr.responseType = 'arraybuffer';
     xhr.addEventListener("readystatechange", function() {
       if (xhr.readyState == xhr.DONE) { //wait for video to load
@@ -325,9 +328,12 @@ function Player(el) {
     for (var j = startIndex; j < endIndex; j++) {
       duration += references[j]['durationSec'];
     }
+    var brEnd = (parseInt(eRef['mediaRange'].split('-')[0], 10) - 1);
+    var brMax = brEnd + 1;
     var videoVo = {};
     videoVo['url'] = data['url'];
-    videoVo['byteRange'] = sRef['mediaRange'].split('-')[0] + '-' + (parseInt(eRef['mediaRange'].split('-')[0], 10) - 1);
+    videoVo['byteRange'] = sRef['mediaRange'].split('-')[0] + '-' + brEnd;
+    videoVo['byteRangeMax'] = brMax;
     videoVo['codecs'] = data['codecs'];
     videoVo['indexRange'] = data['indexRange'];
     videoVo['timestampOffset'] = sRef['startTimeSec'];

@@ -51,8 +51,7 @@ var EXPRESS = (function() {
   app.get('/staticVideo', function(req, res) {
     YT("http://www.youtube.com/watch?v=zg_fAUsNVJ4").pipe(res)
   });
-
-  app.get('/getVideo', function(req, res) {
+  /*app.get('/getVideo', function(req, res) {
     //https://placebear.com/1110/920
     DL.getSidx(req.query).then(function(data) {
       var url = data.url + '&range=' + data.range;
@@ -87,38 +86,71 @@ var EXPRESS = (function() {
         console.log(err);
       });
     });
+  });*/
+  app.get('/getVideo', function(req, res) {
+    //https://placebear.com/1110/920
+    var data = req.body;
+    var url = data.url + '&range=' + data.byteRange;
+    console.log(data.range, data.max);
+    res.writeHead(206, {
+      'Content-Range': 'bytes ' + data.byteRange + '/' + data.max,
+      //'Content-Range': 'bytes ' + range + '/27908',
+      //'Content-Length': '27908',
+      'X-Accel-Buffering': 'no',
+      'Content-Length': data.byteRangeMax,
+      'Accept-Ranges': 'bytes',
+      'Content-Type': 'video/mp4',
+      "Access-Control-Allow-Origin": "*"
+    });
+    console.log(url);
+    var r = request({
+      url: url,
+      //url: 'https://radvisions.s3-eu-west-1.amazonaws.com/2b173550-a6b9-11e5-a7b6-b9c2f8eca471'
+    }).on('response', function(response) {
+
+      response.on('data', function(data) {
+        console.log("data chunk received: " + data.length)
+      });
+
+      response.on('end', function(data) {
+        console.log('Video completed');
+      });
+
+    }).pipe(res);
+
+    r.on('error', function(err) {
+      console.log(err);
+    });
   });
 
   app.get('/getVideoIndex', function(req, res) {
-    DL.getSidx(req.query).then(function(data) {
-      var url = data.url + '&range=' + data.range;
-      res.writeHead(200, {
-        'Content-Range': 'bytes ' + data.indexRange,
-        'X-Accel-Buffering': 'no',
-        'Content-Length': data.indexRangeMax,
-        'Accept-Ranges': 'bytes',
-        'Content-Type': 'video/mp4',
-        "Access-Control-Allow-Origin": "*"
+    var url = data.url + '&range=' + data.range;
+    res.writeHead(200, {
+      'Content-Range': 'bytes ' + data.indexRange,
+      'X-Accel-Buffering': 'no',
+      'Content-Length': data.indexRangeMax,
+      'Accept-Ranges': 'bytes',
+      'Content-Type': 'video/mp4',
+      "Access-Control-Allow-Origin": "*"
+    });
+    console.log(url);
+    var r = request({
+      url: url,
+      //url: 'https://radvisions.s3-eu-west-1.amazonaws.com/2b173550-a6b9-11e5-a7b6-b9c2f8eca471'
+    }).on('response', function(response) {
+
+      response.on('data', function(data) {
+        console.log("data chunk received: " + data.length)
       });
-      console.log(url);
-      var r = request({
-        url: url,
-        //url: 'https://radvisions.s3-eu-west-1.amazonaws.com/2b173550-a6b9-11e5-a7b6-b9c2f8eca471'
-      }).on('response', function(response) {
 
-        response.on('data', function(data) {
-          console.log("data chunk received: " + data.length)
-        });
-
-        response.on('end', function(data) {
-          console.log('Video completed');
-        });
-
-      }).pipe(res);
-
-      r.on('error', function(err) {
-        console.log(err);
+      response.on('end', function(data) {
+        console.log('Video completed');
       });
+
+    }).pipe(res);
+
+    r.on('error', function(err) {
+      console.log(err);
     });
   });
 
