@@ -6,6 +6,7 @@ var fs = require('fs'); // "Request" library
 var DL = require('./playlist_downloader');
 var YT = require('ytdl-core');
 var request = require('request');
+var multiparty = require('multiparty');
 var EXPRESS = (function() {
   var app = express();
   var server, routes;
@@ -126,35 +127,41 @@ var EXPRESS = (function() {
   });
 
   app.post('/getVideoIndex', function(req, res) {
-    var data = req.body;
-    console.log(data);
-    var url = data.url + '&range=' + data.indexRange;
-    res.writeHead(200, {
-      'Content-Range': 'bytes ' + data.indexRange,
-      'X-Accel-Buffering': 'no',
-      'Content-Length': data.indexRangeMax,
-      'Accept-Ranges': 'bytes',
-      'Content-Type': 'video/mp4',
-      "Access-Control-Allow-Origin": "*"
-    });
-    console.log(url);
-    var r = request({
-      url: url,
-      //url: 'https://radvisions.s3-eu-west-1.amazonaws.com/2b173550-a6b9-11e5-a7b6-b9c2f8eca471'
-    }).on('response', function(response) {
-
-      response.on('data', function(data) {
-        console.log("data chunk received: " + data.length)
+    var form = new multiparty.Form();
+    form.parse(req, function(err, fields, files) {
+      res.writeHead(200, {'content-type': 'text/plain'});
+      res.write('received upload:\n\n');
+      res.end(util.inspect({fields: fields, files: files}));
+      console.log(fields);
+      return;
+      var url = data.url + '&range=' + data.indexRange;
+      res.writeHead(200, {
+        'Content-Range': 'bytes ' + data.indexRange,
+        'X-Accel-Buffering': 'no',
+        'Content-Length': data.indexRangeMax,
+        'Accept-Ranges': 'bytes',
+        'Content-Type': 'video/mp4',
+        "Access-Control-Allow-Origin": "*"
       });
+      console.log(url);
+      var r = request({
+        url: url,
+        //url: 'https://radvisions.s3-eu-west-1.amazonaws.com/2b173550-a6b9-11e5-a7b6-b9c2f8eca471'
+      }).on('response', function(response) {
 
-      response.on('end', function(data) {
-        console.log('Video completed');
+        response.on('data', function(data) {
+          console.log("data chunk received: " + data.length)
+        });
+
+        response.on('end', function(data) {
+          console.log('Video completed');
+        });
+
+      }).pipe(res);
+
+      r.on('error', function(err) {
+        console.log(err);
       });
-
-    }).pipe(res);
-
-    r.on('error', function(err) {
-      console.log(err);
     });
   });
 

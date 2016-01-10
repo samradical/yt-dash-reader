@@ -12,6 +12,7 @@
 
     "express": "^4.0.0",
     "body-parser": "~1.0.0",
+    "multiparty": "4.1.2",
     "cors": "*"
   }
 }

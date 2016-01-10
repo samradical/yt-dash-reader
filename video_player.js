@@ -209,7 +209,6 @@ function Player(el) {
 
   function addSegment(currentVo) {
     var formData = new FormData();
-    formData.append('id', 'TTUpgAVwrXE');
     formData.append('url', currentVo.url);
     formData.append('byteRange', currentVo.byteRange);
     var xhr = new XMLHttpRequest();
@@ -218,8 +217,9 @@ function Player(el) {
     }
     xhr.open('POST', 'http://52.90.55.176/getVideo', true);
     console.log(formData);
-    xhr.send(formData);
+    console.log(formData);
     xhr.responseType = 'arraybuffer';
+    xhr.send(formData);
     xhr.addEventListener("readystatechange", function() {
       if (xhr.readyState == xhr.DONE) { //wait for video to load
         if (!sourceBuffer || !mediaSource || starting) {
@@ -312,8 +312,8 @@ function Player(el) {
       if (xhr.readyState == xhr.DONE) {
         var parsed = JSON.parse(xhr.response);
         var vo = _chooseReference(parsed);
-        addSegment(vo);
         console.log(vo);
+        addSegment(vo);
       }
     });
     xhr.send();
