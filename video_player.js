@@ -211,11 +211,12 @@ function Player(el) {
     var formData = new FormData();
     formData.append('url', currentVo.url);
     formData.append('byteRange', currentVo.byteRange);
+    formData.append('byteRangeMax', currentVo.byteRangeMax);
     var xhr = new XMLHttpRequest();
     if (VERBOSE) {
       console.log(currentVo['url'], currentVo['byteRange']);
     }
-    xhr.open('POST', 'http://52.90.55.176/getVideo', true);
+    xhr.open('POST', 'http://52.90.55.176/getVideo?url=' + currentVo.url + "&byteRange=" + currentVo.byteRange + "&byteRangeMax=" + currentVo.byteRangeMax, true);
     xhr.responseType = 'arraybuffer';
     xhr.send(formData);
     xhr.addEventListener("readystatechange", function() {
