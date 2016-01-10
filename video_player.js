@@ -217,6 +217,7 @@ function Player(el) {
       console.log(currentVo['url'], currentVo['byteRange']);
     }
     xhr.open('POST', 'http://52.90.55.176/getVideo', true);
+    console.log(formData);
     xhr.send(formData);
     xhr.responseType = 'arraybuffer';
     xhr.addEventListener("readystatechange", function() {
