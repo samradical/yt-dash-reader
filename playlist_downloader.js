@@ -79,13 +79,14 @@ var YoutubeScraper = (function() {
           console.log(test);
           sidxFromInitRange(test.url, test.indexRange).then(function(sidx) {
             //var f = fs.createWriteStream(path.join(__dirname, 'xx.mp4'));
-            resolve(sidx);
+            test.sidx = sidx;
+            resolve(test);
             return;
             var rr = test.indexRange.split('-')[0];
             var ee = sidx.references[20].mediaRange.split('-')[1];
             resolve({
               url: test.url,
-              references:sidx.references,
+              references: sidx.references,
               indexRange: rr + '-' + ee,
               indexRangeMax: test.indexRange.split('-')[1],
               range: rr + '-' + ee,

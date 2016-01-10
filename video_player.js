@@ -207,17 +207,133 @@ function Player(el) {
     }, false);
   }
 
+  function addSegment(currentVo) {
+    var xhr = new XMLHttpRequest();
+    if (VERBOSE) {
+      console.log(currentVo['url'], currentVo['byteRange']);
+    }
+    xhr.open('GET', currentVo['url']);
+    xhr.setRequestHeader("Range", "bytes=" + currentVo['byteRange']);
+    xhr.send();
+    xhr.responseType = 'arraybuffer';
+    xhr.addEventListener("readystatechange", function() {
+      if (xhr.readyState == xhr.DONE) { //wait for video to load
+        if (!sourceBuffer || !mediaSource || starting) {
+          return;
+        }
+        var segResp = new Uint8Array(xhr.response);
+        var off = 0;
+        if (sourceBuffer.buffered.length > 0) {
+          off = sourceBuffer.buffered.end(sourceBuffer.buffered.length - 1);
+        }
+
+        function _trySettingOffset() {
+          try {
+            sourceBuffer.timestampOffset = off || 0;
+            initialRequest(currentVo, __addInit);
+          } catch (e) {
+            console.log("Error _trySettingOffset");
+            resetMediasource();
+          }
+        }
+
+        function __addInit(initRes) {
+          if (VERBOSE) {
+            console.log("readyState", mediaSource.readyState);
+          }
+          if (mediaSource.readyState === 'open' && sourceBuffer) {
+            sourceBuffer.removeEventListener('updatestart', onBufferUpdateStartBound);
+            sourceBuffer.removeEventListener('updateend', onBufferUpdateEndBound);
+            sourceBuffer.addEventListener('updatestart', __onInitAddStart);
+            sourceBuffer.addEventListener('updateend', __onInitAdded);
+            if (VERBOSE) {
+              console.log("Is updating:", sourceBuffer.updating);
+            }
+            try {
+              sourceBuffer.appendBuffer(initRes);
+              if (VERBOSE) {
+                console.log('init added');
+              }
+            } catch (e) {
+              console.log(e);
+              resetMediasource();
+            }
+          }
+        }
+
+        function __onInitAddStart() {
+
+        }
+
+        function __onInitAdded() {
+          console.log("readyState", mediaSource.readyState);
+          if (mediaSource.readyState === 'open' && sourceBuffer) {
+            sourceBuffer.removeEventListener('updatestart', __onInitAddStart);
+            sourceBuffer.removeEventListener('updateend', __onInitAdded);
+            sourceBuffer.addEventListener('updateend', onBufferUpdateEndBound);
+            sourceBuffer.addEventListener('updatestart', onBufferUpdateStartBound);
+            if (VERBOSE) {
+              console.log("Segment duration:", currentVo.duration);
+              console.log(segmentIndex, '/', StreamerPlaylist.getLength());
+            }
+            off -= currentVo['timestampOffset'];
+            if (VERBOSE) {
+              console.log("Segment TimeOff:", currentVo['timestampOffset'], "Total TimeOff:", off);
+            }
+            try {
+              sourceBuffer.timestampOffset = off;
+            } catch (e) {
+              console.log(e);
+              resetMediasource();
+            }
+            //sourceBuffer.timestampOffset = sourceBuffer.timestampOffset - currentVo['timestampOffset'];
+            try {
+              sourceBuffer.appendBuffer(segResp);
+            } catch (e) {
+              console.log(e);
+              resetMediasource();
+            }
+            segmentIndex++;
+          }
+        }
+        _trySettingOffset();
+      }
+    }, false);
+  }
+
   function getSidx(id) {
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'http://52.90.55.176/getVideoSidx?id='+id, true);
+    xhr.open('GET', 'http://52.90.55.176/getVideoSidx?id=' + id, true);
     xhr.addEventListener("readystatechange", function() {
       if (xhr.readyState == xhr.DONE) {
-        console.log(xhr);
+        var parsed = JSON.parse(xhr.response);
+        var vo = _chooseReference(parsed);
+        console.log(vo);
       }
     });
     xhr.send();
   }
 
+
+  function _chooseReference(data) {
+    var startIndex = 0;
+    var endIndex = 5;
+    var duration = 0;
+    var references = data.sidx.references;
+    var sRef = references[startIndex];
+    var eRef = references[endIndex];
+    for (var j = startIndex; j < endIndex; j++) {
+      duration += references[j]['durationSec'];
+    }
+    var videoVo = {};
+    videoVo['url'] = data['url'];
+    videoVo['byteRange'] = sRef['mediaRange'].split('-')[0] + '-' + (parseInt(eRef['mediaRange'].split('-')[0], 10) - 1);
+    videoVo['codecs'] = data['codecs'];
+    videoVo['indexRange'] = data['indexRange'];
+    videoVo['timestampOffset'] = sRef['startTimeSec'];
+    videoVo['duration'] = duration;
+    return videoVo;
+  }
 
   function initialRequest(data, callback) {
     var xhr = new XMLHttpRequest();
