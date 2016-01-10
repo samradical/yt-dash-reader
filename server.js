@@ -92,11 +92,10 @@ var EXPRESS = (function() {
 app.get('/getVideoIndex', function(req, res) {
     DL.getSidx(req.query).then(function(data) {
       var url = data.url + '&range=' + data.range;
-      console.log(data.range, data.max);
       res.writeHead(200, {
-        'Content-Range': 'bytes ' + data.range,
+        'Content-Range': 'bytes ' + data.indexRange,
         'X-Accel-Buffering': 'no',
-        'Content-Length': data.max,
+        'Content-Length': data.indexRangeMax,
         'Accept-Ranges': 'bytes',
         'Content-Type': 'video/mp4',
         "Access-Control-Allow-Origin": "*"

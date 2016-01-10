@@ -84,6 +84,7 @@ var YoutubeScraper = (function() {
             resolve({
               url: test.url,
               indexRange: rr + '-' + ee,
+              indexRangeMax: test.indexRange.split('-')[1],
               range: rr + '-' + ee,
               max: Number(ee) + 1,
               codecs: test.codecs
