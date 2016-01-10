@@ -87,7 +87,7 @@ var EXPRESS = (function() {
       });
     });
   });*/
-  app.get('/getVideo', function(req, res) {
+  app.post('/getVideo', function(req, res) {
     //https://placebear.com/1110/920
     var data = req.body;
     var url = data.url + '&range=' + data.byteRange;

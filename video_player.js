@@ -311,6 +311,7 @@ function Player(el) {
       if (xhr.readyState == xhr.DONE) {
         var parsed = JSON.parse(xhr.response);
         var vo = _chooseReference(parsed);
+        addSegment(vo);
         console.log(vo);
       }
     });
