@@ -12,9 +12,9 @@ var EXPRESS = (function() {
 
   app.use(cors());
 
- /* app.use(bodyParser.urlencoded({
-    extended: true
-  }));*/
+  /* app.use(bodyParser.urlencoded({
+     extended: true
+   }));*/
 
   app.get('/', function(req, res) {
     res.writeHead(200, {
@@ -89,7 +89,7 @@ var EXPRESS = (function() {
     });
   });
 
-app.get('/getVideoIndex', function(req, res) {
+  app.get('/getVideoIndex', function(req, res) {
     DL.getSidx(req.query).then(function(data) {
       var url = data.url + '&range=' + data.range;
       res.writeHead(200, {
@@ -122,49 +122,55 @@ app.get('/getVideoIndex', function(req, res) {
     });
   });
 
-
- /* app.get('/getVideo2', function(req, res) {
-    DL.getSidx().then(function(data) {
-      var url = data.url + '&range=' + data.range;
-      console.log(data.range, data.max);
-      res.writeHead(206, {
-        'Content-Range': 'bytes ' + data.range + '/' + data.max,
-        //'Content-Range': 'bytes ' + range + '/27908',
-        //'Content-Length': '27908',
-        'Content-Length': data.max,
-        'Accept-Ranges': 'bytes',
-        'Content-Type': 'video/mp4',
-        "Access-Control-Allow-Origin": "*"
-      });
-      console.log(url);
-      var r = request({
-        url: url,
-        //url: 'https://radvisions.s3-eu-west-1.amazonaws.com/2b173550-a6b9-11e5-a7b6-b9c2f8eca471'
-      }).on('response', function(response) {
-
-        response.on('data', function(data) {
-          res.write(data);
-          console.log("data chunk received: " + data.length)
-        });
-
-        response.on('end', function(data) {
-          res.end();
-          console.log('Video completed');
-        });
-      });
-
-      r.on('error', function(err) {
-        console.log(err);
-      });
+  app.get('/getVideoSidx', function(req, res) {
+    DL.getSidx(req.query).then(function(data) {
+      res.send(data);
     });
-  });*/
+  });
+
+
+  /* app.get('/getVideo2', function(req, res) {
+     DL.getSidx().then(function(data) {
+       var url = data.url + '&range=' + data.range;
+       console.log(data.range, data.max);
+       res.writeHead(206, {
+         'Content-Range': 'bytes ' + data.range + '/' + data.max,
+         //'Content-Range': 'bytes ' + range + '/27908',
+         //'Content-Length': '27908',
+         'Content-Length': data.max,
+         'Accept-Ranges': 'bytes',
+         'Content-Type': 'video/mp4',
+         "Access-Control-Allow-Origin": "*"
+       });
+       console.log(url);
+       var r = request({
+         url: url,
+         //url: 'https://radvisions.s3-eu-west-1.amazonaws.com/2b173550-a6b9-11e5-a7b6-b9c2f8eca471'
+       }).on('response', function(response) {
+
+         response.on('data', function(data) {
+           res.write(data);
+           console.log("data chunk received: " + data.length)
+         });
+
+         response.on('end', function(data) {
+           res.end();
+           console.log('Video completed');
+         });
+       });
+
+       r.on('error', function(err) {
+         console.log(err);
+       });
+     });
+   });*/
 
 
   //routes
   //routes = require('./routes')(app);
 
   server = app.listen(process.env['PORT'] || 8080, '127.0.0.1');
-  console.log("STARTED, ",process.env['PORT']);
+  console.log("STARTED, ", process.env['PORT']);
 })();
 
 module.exports = EXPRESS;

@@ -123,6 +123,9 @@ function Player(el) {
   */
   function request() {
 
+
+    getSidx('QcIy9NiNbmo');
+    return;
     var xhr = new XMLHttpRequest();
     xhr.open('GET', 'http://52.90.55.176/getVideoIndex?id=TTUpgAVwrXE', true);
     xhr.responseType = 'arraybuffer';
@@ -138,12 +141,12 @@ function Player(el) {
     if (VERBOSE) {
       console.log(data['url'], data['byteRange']);
     }
-    xhr.open('GET', 'http://52.90.55.176/getVideo?id=TTUpgAVwrXE', true);
+    xhr.open('GET', 'http://52.90.55.176/getVideoSidx?id=TTUpgAVwrXE', true);
     xhr.send();
     xhr.responseType = 'arraybuffer';
     xhr.addEventListener("readystatechange", function() {
       if (xhr.readyState == xhr.DONE) { //wait for video to load
-        if (!sourceBuffer || !mediaSource || starting) {
+        if (!sourceBuffer || !mediaSource) {
           return;
         }
         var segResp = new Uint8Array(xhr.response);
@@ -157,6 +160,7 @@ function Player(el) {
             sourceBuffer.timestampOffset = off || 0;
             initialRequest(data, __addInit);
           } catch (e) {
+            console.log(e);
             //resetMediasource();
           }
         }
@@ -201,6 +205,17 @@ function Player(el) {
         _trySettingOffset();
       }
     }, false);
+  }
+
+  function getSidx(id) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'http://52.90.55.176/getVideoSidx?id='+id, true);
+    xhr.addEventListener("readystatechange", function() {
+      if (xhr.readyState == xhr.DONE) {
+        console.log(xhr);
+      }
+    });
+    xhr.send();
   }
 
 
