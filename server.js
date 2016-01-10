@@ -94,7 +94,6 @@ var EXPRESS = (function() {
     form.parse(req, function(err, data, files) {
       console.log(data);
       var url = data.url + '&range=' + data.byteRange;
-      console.log(data.range, data.max);
       res.writeHead(206, {
         'Content-Range': 'bytes ' + data.byteRange + '/' + data.max,
         //'Content-Range': 'bytes ' + range + '/27908',
@@ -130,8 +129,9 @@ var EXPRESS = (function() {
   app.post('/getVideoIndex', function(req, res) {
     var form = new multiparty.Form();
     form.parse(req, function(err, data, files) {
+      console.log(data);
       var url = data.url + '&range=' + data.indexRange;
-      res.writeHead(200, {
+      res.writeHead(206, {
         'Content-Range': 'bytes ' + data.indexRange,
         'X-Accel-Buffering': 'no',
         'Content-Length': data.indexRangeMax,
