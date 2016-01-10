@@ -123,35 +123,22 @@ function Player(el) {
   */
   function request() {
 
-    document.getElementById('myImg').src = "http://52.90.55.176/getImage";
-    document.getElementById('myImg2').src = "http://52.90.55.176/getImage";
     var xhr = new XMLHttpRequest();
-    if (VERBOSE) {
-      console.log(data['url'], data['byteRange']);
-    }
-    xhr.open('GET', 'http://52.90.55.176/getVideo?id=TTUpgAVwrXE', true);
-    //xhr.open('GET', 'http://localhost:8080/getVideo', true);
-    //xhr.open('GET', 'http://localhost:8080/getVideo2', true);
+    xhr.open('GET', 'http://52.90.55.176/getVideoIndex?id=TTUpgAVwrXE', true);
     xhr.responseType = 'arraybuffer';
-    xhr.onload = function() {
-      var segResp = new Uint8Array(xhr.response);
-      console.log("LOAD");
-      console.log(segResp.byteLength);
-      sourceBuffer.appendBuffer(segResp);
-      var off = 0;
-    };
     xhr.addEventListener("readystatechange", function() {
-      console.log(xhr);
+      if (xhr.readyState == xhr.DONE) {
+        console.log(xhr);
+        sourceBuffer.appendBuffer(new Uint8Array(xhr.response));
+      }
     });
     xhr.send();
-    console.log("REQUEST");
     return;
     var xhr = new XMLHttpRequest();
     if (VERBOSE) {
       console.log(data['url'], data['byteRange']);
     }
-    xhr.open('GET', data['url']);
-    xhr.setRequestHeader("Range", "bytes=" + data['byteRange']);
+    xhr.open('GET', 'http://52.90.55.176/getVideo?id=TTUpgAVwrXE', true);
     xhr.send();
     xhr.responseType = 'arraybuffer';
     xhr.addEventListener("readystatechange", function() {
@@ -175,11 +162,18 @@ function Player(el) {
         }
 
         function __addInit(initRes) {
-          sourceBuffer.removeEventListener('updatestart', onBufferUpdateStartBound);
-          sourceBuffer.removeEventListener('updateend', onBufferUpdateEndBound);
-          sourceBuffer.addEventListener('updatestart', __onInitAddStart);
-          sourceBuffer.addEventListener('updateend', __onInitAdded);
           sourceBuffer.appendBuffer(initRes);
+
+          var xhr = new XMLHttpRequest();
+          xhr.open('GET', 'http://52.90.55.176/getVideo?id=TTUpgAVwrXE', true);
+          xhr.send();
+          xhr.responseType = 'arraybuffer';
+          xhr.addEventListener("readystatechange", function() {
+            if (xhr.readyState == xhr.DONE) { //wait for video to load
+              var segResp = new Uint8Array(xhr.response);
+              sourceBuffer.appendBuffer(segResp);
+            }
+          });
           if (VERBOSE) {
             console.log('init added');
           }
@@ -213,8 +207,7 @@ function Player(el) {
   function initialRequest(data, callback) {
     var xhr = new XMLHttpRequest();
     var range = "bytes=" + data['indexRange']
-    xhr.open('GET', data['url']);
-    xhr.setRequestHeader("Range", range);
+    xhr.open('GET', 'http://52.90.55.176/getVideoIndex?id=TTUpgAVwrXE', true);
     xhr.send();
     xhr.responseType = 'arraybuffer';
     try {

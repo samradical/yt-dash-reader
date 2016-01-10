@@ -87,10 +87,44 @@ var EXPRESS = (function() {
         console.log(err);
       });
     });
-  })
+  });
+
+app.get('/getVideoIndex', function(req, res) {
+    DL.getSidx(req.query).then(function(data) {
+      var url = data.url + '&range=' + data.range;
+      console.log(data.range, data.max);
+      res.writeHead(200, {
+        'Content-Range': 'bytes ' + data.range,
+        'X-Accel-Buffering': 'no',
+        'Content-Length': data.max,
+        'Accept-Ranges': 'bytes',
+        'Content-Type': 'video/mp4',
+        "Access-Control-Allow-Origin": "*"
+      });
+      console.log(url);
+      var r = request({
+        url: url,
+        //url: 'https://radvisions.s3-eu-west-1.amazonaws.com/2b173550-a6b9-11e5-a7b6-b9c2f8eca471'
+      }).on('response', function(response) {
+
+        response.on('data', function(data) {
+          console.log("data chunk received: " + data.length)
+        });
+
+        response.on('end', function(data) {
+          console.log('Video completed');
+        });
+
+      }).pipe(res);
+
+      r.on('error', function(err) {
+        console.log(err);
+      });
+    });
+  });
 
 
-  app.get('/getVideo2', function(req, res) {
+ /* app.get('/getVideo2', function(req, res) {
     DL.getSidx().then(function(data) {
       var url = data.url + '&range=' + data.range;
       console.log(data.range, data.max);
@@ -124,7 +158,7 @@ var EXPRESS = (function() {
         console.log(err);
       });
     });
-  });
+  });*/
 
 
   //routes
